@@ -1,0 +1,11 @@
+  create function getNthHighestSalary(n int)
+  returns int
+ begin 
+set @Salary=(select case when count(*)=n then min(Salary) else null  end as Salary
+              from  (select Salary
+            from Employee
+            group by Salary
+            order by Salary DESC
+            lIMIT n) as A);
+return @Salary;
+ end
