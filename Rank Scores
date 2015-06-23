@@ -1,0 +1,11 @@
+select Score, rank
+from(
+      SELECT Score, case Score when @max then @rank:=1
+						   when @score then @rank 
+                             else @rank:=@rank+1 
+                        end as rank, 
+                        @score:=score
+    from
+        (select Score
+        from Scores
+        order by Score DESC) AS A, (select @rank:=0) as b ,(select @max:=(select max(score) from Scores))as c) as d;
