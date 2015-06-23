@@ -1,0 +1,6 @@
+select distinct num
+from
+(select case when Num=@num then @count:=@count+1 else @count:=1 end as Count, Num,
+        @num :=num
+from Logs, (select @count:=0) as a) as b
+where Count>=3;
