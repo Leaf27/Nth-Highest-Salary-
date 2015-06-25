@@ -1,0 +1,12 @@
+select d.name as Department, e.name as Employee, e.salary as Salary
+from(select case when Departmentid=@id  && salary!=@salary then @count:=@count+1 
+            when Departmentid=@id && salary=@salary then @count
+            else @count:=1 end as num,
+       @id:=departmentId, 
+       @salary:=salary,
+       name, salary, departmentId
+	from  (select Name, Salary, DepartmentId
+			from Employee
+			order by DepartmentId, Salary desc) as a, (select @id:=0) as b, (select @count:=0) as c, (select @salary:=0) as f) as e,Department as d
+where e.departmentId=d.id
+and num<=3
